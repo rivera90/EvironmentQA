@@ -1,0 +1,150 @@
+﻿@model IEnumerable<EvironmentQA.Models.Archivo>
+
+@{
+    ViewBag.Title = "Archivo";
+    ViewBag.Desarrollador = "";
+}
+
+<h2>Archivo</h2>
+<div class="row">
+    <div class="col-md-12" style="text-align-last: end;">
+        <button class="btn btn-info" id="myBtn">Cerrados</button>
+    </div>
+    
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <p>
+            @Html.ActionLink("Create New", "NuevoArchivo")
+        </p>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-2">Buscar Archivo:</label>
+            <div class="col-md-10">
+                <input type="text" id="NomBusqueda" class="form-control" />
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label col-md-2">Buscar ISR:</label>
+            <div class="col-md-10">
+                <input type="text" id="isrBusqueda" class="form-control" />
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-11" style="text-align-last: end;">
+        <a class="btn btn-primary btn-md" id="BuscarIsr">Buscar</a>
+        <a class="btn btn-danger btn-md" id="CerrarISR">Cerrar</a>
+    </div>
+    
+</div>
+
+
+
+<table class="table" id="tablaPrueba">
+
+    <tr>
+        @*<th>
+            ID
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.NomArchivo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RutaArchivo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ISR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NomISR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ambiente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaModificacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RutaFileServer)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        if (ViewBag.Desarrollador == "" || ViewBag.Desarrollador != item.Desarrollador)
+        {
+            ViewBag.Desarrollador = item.Desarrollador;
+            <tr class="collapsible">
+                <td colspan="8">@Html.DisplayFor(modelItem => item.Desarrollador)</td>                
+            </tr>
+        }
+        
+        
+        <tr class="Datos" dato-responsable="@item.Desarrollador">
+            <td style="display:none">
+                @Html.DisplayFor(modelItem => item.IdArchivo)
+            </td>
+            <td class="show">
+                @Html.DisplayFor(modelItem => item.NomArchivo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RutaArchivo)
+            </td>
+            <td id="numISR" class="" data-toggle="tooltip" data-placement="right" title="@item.NomISR">
+
+                @Html.DisplayFor(modelItem => item.ISR)
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomISR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ambiente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaModificacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RutaFileServer)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditarAchivo", new { id = item.IdArchivo }) |
+                <img class="deleteIMG" src="~/fonts/open-iconic-master/svg/circle-x.svg" alt="icon name">
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div>
+            <input id="fechaInicial" type="date" />
+            <input id="fechaFinal" type="date" />
+        </div>
+        <table id="tablasemana" class="table">
+            <tr>
+                <td>ISR</td>
+                <td>Nombre Responsable</td>
+                <td>Nom ISR</td>
+                <td>Fecha ISR</td>
+            </tr>
+        </table>
+
+        <form>
+            <a id="btnExcel" class="btn btn-success">Excel</a>
+            <a id="btnSemana" class="btn btn-info">Buscar Semana</a>
+        </form>
+    </div>
+    
+</div>
